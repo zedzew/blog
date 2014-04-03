@@ -1,0 +1,31 @@
+﻿{% extends 'main.html' %}
+
+{% block article %}
+    <h3>{{article.article_title}}</h3>
+    <p>{{article.article_text}}</p>
+    <h6>{{article.article_date}}</h6>
+    <hr>
+    <p>
+    {% load disqus_tags %}
+    {% disqus_show_comments %}
+    </p>
+    <hr>
+    <p>Коментарии</p>
+{% for comment in comments %}
+    <p>{{ comment.comments_text }}</p>
+    <p>{{ comment.comments_from.username }} {{ comment.comments_date }}</p>
+    <hr>
+{% endfor %}
+{% if username %}
+<form action="/articles/addcomment/{{ article.id }}/" method= "post">
+    <div class="large-8 columns">
+        {% csrf_token %}
+        {{form}}
+    <input type="submit" class="button" value="Добавить коментарий:">
+    </div>
+</form>
+{% endif %}
+
+{% endblock %}
+
+
